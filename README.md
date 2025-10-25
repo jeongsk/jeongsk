@@ -45,7 +45,7 @@ I'm a software engineer with 10 years of development experience, passionate abou
 Feel free to reach out for collaborations or just a chat about technology!
 
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat-square&logo=github)](https://github.com/jeongsk)
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jeongsk)
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jeongseok-oh/)
 
 ---
 
