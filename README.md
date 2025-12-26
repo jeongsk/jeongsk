@@ -12,8 +12,6 @@ I'm a software engineer with 15 years of development experience, passionate abou
 
 ![Top Languages](https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=jeongsk&layout=compact&theme=tokyonight&hide_border=true)
 
-![GitHub Streak](https://streak-stats.demolab.com/?user=jeongsk&theme=tokyonight&hide_border=true)
-
 </div>
 
 ## Tech Stack
