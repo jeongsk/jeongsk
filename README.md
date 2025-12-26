@@ -2,7 +2,7 @@
 
 ## About Me
 
-I'm a software engineer with 15 years of development experience, passionate about building robust and scalable applications. I enjoy exploring new technologies and contributing to open-source projects.
+15년 경력의 소프트웨어 엔지니어입니다. 안정적이고 확장 가능한 애플리케이션 개발에 열정을 가지고 있으며, 새로운 기술 탐구와 오픈소스 프로젝트 기여를 즐깁니다.
 
 ## GitHub Statistics
 
