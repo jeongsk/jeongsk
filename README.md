@@ -8,9 +8,9 @@ I'm a software engineer with 15 years of development experience, passionate abou
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=jeongsk&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&cache_seconds=86400)
+![GitHub Stats](https://github-readme-stats-eight-theta.vercel.app/api?username=jeongsk&show_icons=true&theme=tokyonight&hide_border=true&count_private=true)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=jeongsk&layout=compact&theme=tokyonight&hide_border=true)
+![Top Languages](https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=jeongsk&layout=compact&theme=tokyonight&hide_border=true)
 
 ![GitHub Streak](https://streak-stats.demolab.com/?user=jeongsk&theme=tokyonight&hide_border=true)
 
