@@ -40,7 +40,7 @@
 
 ## Connect With Me
 
-Feel free to reach out for collaborations or just a chat about technology!
+협업 제안이나 기술 관련 이야기는 언제든 환영합니다!
 
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat-square&logo=github)](https://github.com/jeongsk)
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jeongseok-oh/)
