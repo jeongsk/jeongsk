@@ -38,6 +38,16 @@
 - Obsidian 플러그인 개발
 - 자동화 워크플로우 구축 (n8n)
 
+## Featured Projects
+
+- 🧠 **[agenthub](https://github.com/jeongsk/agenthub)** — AI 에이전트 허브
+- 📚 **[ragdesk](https://github.com/jeongsk/ragdesk)** — RAG Anything
+- 🔄 **[obsidian-vault-index-sync](https://github.com/jeongsk/obsidian-vault-index-sync)** — 옵시디언 index 폴더 문서 동기화
+
+## GitHub Activity
+
+![GitHub Contribution Graph](https://ghchart.rshah.org/jeongsk)
+
 ## Connect With Me
 
 협업 제안이나 기술 관련 이야기는 언제든 환영합니다!
