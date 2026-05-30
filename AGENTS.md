@@ -7,8 +7,14 @@ GitHub 프로필 README 저장소입니다. GitHub 프로필 페이지에 표시
 ```
 .
 ├── README.md          # GitHub 프로필 페이지에 렌더링되는 메인 파일
-└── .Codex/
-    └── AGENTS.md      # AI 에이전트 가이드 (이 파일)
+├── AGENTS.md          # AI 에이전트 가이드 (이 파일)
+├── CLAUDE.md          # 루트 가이드 (.claude/CLAUDE.md 참조)
+├── SETUP.md           # 환경 설정 안내
+├── .claude/
+│   ├── CLAUDE.md      # Claude Code 에이전트 가이드
+│   └── settings.json  # 권한 설정
+└── .rtk/
+    └── filters.toml   # 필터 설정
 ```
 
 ## 언어
@@ -45,7 +51,7 @@ Gitmoji + 한국어 설명 형식을 사용합니다:
 
 1. GitHub 마크다운 문법을 사용하며, GitHub에서만 렌더링되는 특수 기능(GitHub Stats 카드, Shields.io 뱃지 등)을 활용할 수 있습니다.
 2. 외부 이미지/뱃지는 HTTPS URL을 사용하고, 깨진 링크가 없는지 확인합니다.
-3. 섹션 순서는 About Me → GitHub Statistics → Tech Stack → Current Focus → Connect With Me 순서를 유지합니다.
+3. 섹션 순서는 About Me → GitHub Statistics → Tech Stack → Current Focus → Featured Projects → GitHub Activity → Connect With Me 순서를 유지합니다.
 
 ## AI 에이전트 행동 규칙
 
