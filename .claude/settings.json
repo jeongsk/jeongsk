@@ -1,7 +1,26 @@
 {
   "permissions": {
-  "allow": ["Bash(uv run *)", "Bash(npm run *)", "Bash(pnpm run *)", "Bash(git add *)", "Bash(rm -f /tmp/*.*)"],
-  "deny":  ["Read(.env)", "Read(.env*)", "Read(secrets/**)", "Read(**/*.pem)", "Read(**/id_rsa*)", "Read(**/credentials*)", "Bash(rm -rf /)", "Bash(git push --force*)", "Bash(git push -f*)", "WebSearch"],
-  "ask":   ["Bash(rm -rf *)"],
-  "defaultMode": "default"
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)"
+    ],
+    "ask": ["Bash(git push:*)", "Bash(rm -rf:*)"],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/id_rsa*)",
+      "Read(**/credentials*)",
+      "Bash(rm -rf /)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ],
+    "defaultMode": "default"
+  }
 }
