@@ -3,6 +3,10 @@
 > **AI 에이전트용 자동화 가이드** — 이 문서를 순서대로 읽고 각 단계를 실행하여 macOS 개발 환경을 구성합니다.
 > 모든 명령어는 복사하여 터미널에 붙여넣을 수 있습니다. 각 단계마다 성공 여부를 검증하세요.
 
+> **읽는 방법** — `(선택)`·`(대안)` 표시가 붙은 섹션은 건너뛰어도 기본 환경 구성에는 지장이 없습니다.
+> 특히 **버전 매니저는 택1**입니다. 기본 구성은 fnm(Node) + pyenv(Python)이며, 6.5의 `mise`로 통합하려면
+> fnm·pyenv 단계를 건너뛰세요. 셋을 모두 활성화하면 `~/.zshrc`에서 PATH가 충돌합니다.
+
 ---
 
 ## 목차
@@ -11,14 +15,17 @@
 2. [Xcode Command Line Tools](#2-xcode-command-line-tools)
 3. [Homebrew (패키지 매니저)](#3-homebrew-패키지-매니저)
 4. [Git 설정](#4-git-설정)
-5. [Shell 환경 (Zsh + Oh My Zsh)](#5-shell-환경-zsh--oh-my-zsh)
+5. [Shell 환경 (Zsh + Oh My Zsh + Starship)](#5-shell-환경-zsh--oh-my-zsh--starship)
 6. [Node.js 환경](#6-nodejs-환경)
 7. [Python 환경](#7-python-환경)
 8. [Docker 환경](#8-docker-환경)
 9. [VS Code (에디터)](#9-vs-code-에디터)
 10. [AI/LLM 개발 도구](#10-aillm-개발-도구)
 11. [기타 유틸리티](#11-기타-유틸리티)
-12. [최종 검증](#12-최종-검증)
+12. [언어 런타임 & 데이터베이스](#12-언어-런타임--데이터베이스)
+13. [클라우드 & 인프라 CLI](#13-클라우드--인프라-cli)
+14. [폰트](#14-폰트)
+15. [최종 검증](#15-최종-검증)
 
 ---
 
@@ -32,6 +39,7 @@ sw_vers
 
 > **요구사항**: macOS 13 (Ventura) 이상
 > **검증**: `ProductVersion` 필드가 `13.x` 이상이면 통과
+> **참고**: 이 가이드는 macOS 26.5 (Apple Silicon)에서 검증되었습니다.
 
 ### 1.2 CPU 아키텍처 확인
 
@@ -100,7 +108,7 @@ fi
 brew doctor
 # 출력: Your system is ready to brew.
 brew --version
-# 출력 예시: Homebrew 4.x.x
+# 출력 예시: Homebrew 4.x 이상
 ```
 
 ### 3.3 필수 패키지 설치
@@ -122,6 +130,34 @@ brew install \
 
 ```bash
 for pkg in git wget curl jq rg fd tree htop tmux; do
+  echo -n "$pkg: "
+  command -v "$pkg" && echo "✓" || echo "✗ MISSING"
+done
+```
+
+### 3.4 모던 CLI 도구 (선택)
+
+기본 명령어를 더 빠르고 보기 좋게 대체하는 도구들입니다.
+
+```bash
+brew install \
+  bat \
+  eza \
+  btop \
+  fzf \
+  mosh \
+  pipx \
+  git-lfs
+```
+
+> - `bat`(cat 대체, 문법 강조) · `eza`(ls 대체) · `btop`(htop 대체, 시각화)
+> - `fzf`(퍼지 파인더) · `mosh`(끊김 없는 SSH) · `pipx`(Python CLI 격리 설치) · `git-lfs`(대용량 파일)
+> - 프롬프트 `starship`, 통합 버전 매니저 `mise`, App Store CLI `mas`는 각 전용 섹션에서 설치합니다.
+
+**검증:**
+
+```bash
+for pkg in bat eza btop fzf mosh pipx git-lfs; do
   echo -n "$pkg: "
   command -v "$pkg" && echo "✓" || echo "✗ MISSING"
 done
@@ -175,12 +211,13 @@ ssh -T git@github.com
 
 ---
 
-## 5. Shell 환경 (Zsh + Oh My Zsh)
+## 5. Shell 환경 (Zsh + Oh My Zsh + Starship)
 
 ### 5.1 Oh My Zsh 설치
 
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# --unattended: 설치 후 새 zsh 세션으로 전환하지 않음(자동화 시 멈춤 방지)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 ```
 
 ### 5.2 유용한 플러그인 설치
@@ -217,6 +254,23 @@ omz version
 # 출력 예시: 1.x.x
 ```
 
+### 5.5 Starship 프롬프트 (선택)
+
+> 빠르고 미니멀한 크로스 셸 프롬프트입니다. oh-my-zsh 테마 대신 사용할 수 있습니다.
+
+```bash
+brew install starship
+echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**검증:**
+
+```bash
+starship --version
+# 출력 예시: starship 1.x.x
+```
+
 ---
 
 ## 6. Node.js 환경
@@ -234,6 +288,15 @@ echo 'eval "$(fnm env --use-on-cd --shell zsh)"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
+> **(선택) nvm 호환 alias** — `nvm` 명령이 손에 익었다면 alias를 추가할 수 있습니다.
+> fnm은 `install`·`use`·`ls`·`current` 등 자주 쓰는 명령은 nvm과 호환되지만,
+> `nvm alias default` 같은 일부 서브커맨드는 다릅니다(fnm은 `fnm default`).
+> `.nvmrc`/`.node-version` 자동 인식은 위 `--use-on-cd` 옵션으로 이미 지원됩니다.
+>
+> ```bash
+> echo 'alias nvm="fnm"' >> ~/.zshrc
+> ```
+
 ### 6.3 Node.js LTS 버전 설치
 
 ```bash
@@ -246,7 +309,7 @@ fnm use lts-latest
 
 ```bash
 node --version
-# 출력 예시: v20.x.x (LTS)
+# 출력 예시: v22.x.x (LTS)
 npm --version
 # 출력 예시: 10.x.x
 fnm --version
@@ -255,11 +318,14 @@ fnm --version
 
 ### 6.4 글로벌 패키지 설치
 
+> `pnpm`은 Node 버전에 묶이지 않도록 Homebrew로 설치하는 것을 권장합니다.
+
 ```bash
+brew install pnpm
+
 npm install -g \
   typescript \
   ts-node \
-  pnpm \
   yarn \
   vercel \
   prettier \
@@ -275,6 +341,28 @@ for cmd in tsc pnpm yarn vercel prettier eslint; do
 done
 ```
 
+### 6.5 (대안) mise — 여러 언어를 한 도구로 관리
+
+> [mise](https://mise.jdx.dev)는 Node·Python·Go·Elixir 등 여러 런타임 버전을 단일 도구로
+> 관리합니다. fnm·pyenv를 따로 쓰는 대신 mise 하나로 통합할 수 있습니다.
+> (PATH가 충돌할 수 있으니, 통합 시 기존 fnm/pyenv 초기화 라인을 정리하세요.)
+
+```bash
+brew install mise
+echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
+source ~/.zshrc
+
+# 예시: 전역 기본 버전 지정
+mise use -g node@lts python@3.12
+```
+
+**검증:**
+
+```bash
+mise --version
+mise ls
+```
+
 ---
 
 ## 7. Python 환경
@@ -287,10 +375,15 @@ brew install pyenv
 
 ### 7.2 pyenv 초기화 설정
 
+> 가상환경까지 pyenv로 관리하려면 `pyenv-virtualenv`를 함께 설치합니다.
+
 ```bash
+brew install pyenv-virtualenv
+
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -314,25 +407,59 @@ pip --version
 
 ```bash
 pip install --upgrade pip setuptools wheel
-pip install \
-  ipython \
-  black \
-  ruff \
-  mypy \
-  pytest \
-  pytest-cov \
-  pre-commit \
-  poetry \
-  pipenv
+
+# pipx PATH 등록 (최초 1회)
+pipx ensurepath
+
+# 독립 실행 CLI 도구는 pipx로 격리 설치 (전역 pip 오염·의존성 충돌 방지)
+for tool in ipython black ruff mypy poetry pipenv pre-commit; do
+  pipx install "$tool"
+done
+```
+
+> `pytest`/`pytest-cov`는 보통 프로젝트별 가상환경에 설치합니다.
+> 전역으로도 쓰려면: `pipx install pytest && pipx inject pytest pytest-cov`
+
+**검증:**
+
+```bash
+for cmd in ipython black ruff mypy poetry pre-commit; do
+  echo -n "$cmd: "
+  command -v "$cmd" && echo "✓" || echo "✗ MISSING"
+done
+```
+
+### 7.5 uv (초고속 패키지·프로젝트 매니저)
+
+> uv는 Astral에서 만든 Rust 기반 도구로, pip·virtualenv·poetry를 대체할 수 있습니다.
+> pyenv와 함께 사용하거나 단독으로 Python 버전까지 관리할 수 있습니다.
+
+```bash
+# Homebrew로 설치
+brew install uv
 ```
 
 **검증:**
 
 ```bash
-for cmd in ipython black ruff mypy pytest poetry; do
-  echo -n "$cmd: "
-  command -v "$cmd" && echo "✓" || echo "✗ MISSING"
-done
+uv --version
+# 출력 예시: uv 0.x.x
+```
+
+**기본 사용 예시:**
+
+```bash
+# 새 프로젝트 초기화 (pyproject.toml 생성)
+uv init myproject && cd myproject
+
+# 패키지 추가 (가상환경 자동 생성·관리)
+uv add requests
+
+# Python 버전 설치·고정
+uv python install 3.12
+
+# 스크립트 실행
+uv run python main.py
 ```
 
 ---
@@ -344,8 +471,8 @@ done
 > Docker Desktop은 Homebrew로도 설치 가능하지만, 공식 다운로드를 권장합니다.
 
 ```bash
-# Homebrew로 설치
-brew install --cask docker
+# Homebrew로 설치 (cask 정식 이름은 docker-desktop)
+brew install --cask docker-desktop
 ```
 
 ### 8.2 Docker Desktop 실행
@@ -440,9 +567,12 @@ pip install \
 ### 10.2 MCP (Model Context Protocol) 관련 도구
 
 ```bash
+# Python MCP SDK
 pip install mcp
-npm install -g @modelcontextprotocol/sdk
 ```
+
+> JS/TS SDK `@modelcontextprotocol/sdk`는 전역(-g)이 아니라 **프로젝트별 의존성**으로 설치합니다:
+> `npm install @modelcontextprotocol/sdk`
 
 ### 10.3 Obsidian CLI (플러그인 개발용)
 
@@ -459,10 +589,15 @@ npm install -g n8n
 **검증:**
 
 ```bash
-for env in langchain langgraph chromadb tiktoken mcp n8n; do
+# Python 패키지 import 검증
+for env in langchain langgraph chromadb tiktoken mcp; do
   echo -n "$env: "
-  python -c "import ${env//-/_}" 2>/dev/null && echo "✓" || npx -q "$env" --version 2>/dev/null && echo "✓" || echo "✗"
+  if python -c "import ${env//-/_}" 2>/dev/null; then echo "✓"; else echo "✗"; fi
 done
+
+# n8n (전역 CLI) 검증
+echo -n "n8n: "
+if command -v n8n &>/dev/null; then echo "✓"; else echo "✗"; fi
 ```
 
 ---
@@ -478,31 +613,162 @@ gh auth login
 
 > 웹 기반 인증 또는 토큰 인증을 선택하고 안내를 따르세요.
 
-### 11.2 추가 개발 도구
+### 11.2 추가 개발 도구 (cask)
 
 ```bash
-brew install --cask \
-  iterm2 \
-  rectangle \
-  obsidian \
-  postman \
-  figma \
-  slack \
-  discord
+# 터미널
+brew install --cask ghostty warp
+
+# 생산성 유틸리티
+brew install --cask raycast rectangle karabiner-elements shottr keka itsycal switchhosts
+
+# 브라우저
+brew install --cask brave-browser firefox google-chrome
+
+# 협업·노트
+brew install --cask slack discord obsidian notion
+
+# AI 개발 앱
+brew install --cask cursor zed chatgpt cherry-studio ollama-app lm-studio
+
+# 미디어·DB·기타
+brew install --cask iina vlc db-browser-for-sqlite bruno fork utm
 ```
 
 **검증:**
 
 ```bash
-for app in "iTerm" "Rectangle" "Obsidian" "Postman" "Figma" "Slack" "Discord"; do
+for app in "Ghostty" "Raycast" "Rectangle" "Brave Browser" "Cursor" "Obsidian"; do
   echo -n "$app: "
   ls "/Applications/$app.app" &>/dev/null && echo "✓" || echo "✗ NOT INSTALLED"
 done
 ```
 
+### 11.3 Mac App Store 앱 (mas)
+
+> [mas](https://github.com/mas-cli/mas)는 Mac App Store 앱을 CLI로 설치합니다.
+> **먼저 App Store 앱에서 Apple 계정으로 로그인**해야 `mas install`이 동작합니다.
+
+```bash
+brew install mas
+
+# 로그인 계정 확인 (미로그인 시 App Store 앱에서 먼저 로그인)
+mas account
+
+# 앱 검색 → 출력된 ID 확인 → 설치
+mas search Amphetamine
+# 937984704  Amphetamine  (5.x)   ← 맨 앞 숫자가 앱 ID
+mas install 937984704   # 검색 결과에서 확인한 ID로 설치
+
+# 메뉴바 CPU 모니터 RunCat 설치
+mas install 1429033973   # RunCat
+
+# 여러 앱을 ID로 한 번에 설치할 수도 있습니다
+# mas install 497799835 425424353   # 예: Xcode, The Unarchiver
+```
+
+> 설치된 MAS 앱 목록은 `mas list`로, 업데이트는 `mas upgrade`로 관리합니다.
+> 자주 쓰는 앱 ID를 모아두면 재설치 시 편리합니다.
+
+**검증:**
+
+```bash
+mas version
+# 출력 예시: 1.8.x
+```
+
 ---
 
-## 12. 최종 검증
+## 12. 언어 런타임 & 데이터베이스
+
+### 12.1 언어 런타임
+
+```bash
+brew install go rust openjdk@17
+```
+
+> Apple Silicon에서 `openjdk@17`은 keg-only이므로, 시스템에 JDK로 등록하려면:
+>
+> ```bash
+> sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk \
+>   /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+> ```
+>
+> `javac` 등을 PATH에서 바로 쓰려면 다음도 추가합니다:
+>
+> ```bash
+> echo 'export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"' >> ~/.zshrc
+> ```
+
+**검증:**
+
+```bash
+go version
+rustc --version
+java -version
+```
+
+### 12.2 데이터베이스 (선택)
+
+```bash
+brew install postgresql@16 mysql
+```
+
+> 서비스 실행/중지:
+>
+> ```bash
+> brew services start postgresql@16
+> brew services start mysql
+> ```
+
+**검증:**
+
+```bash
+brew services list
+```
+
+---
+
+## 13. 클라우드 & 인프라 CLI
+
+```bash
+# 클라우드 CLI
+brew install awscli azure-cli
+brew install --cask gcloud-cli
+
+# 네트워크·인프라
+brew install tailscale cloudflared cloudflare-wrangler
+```
+
+**검증:**
+
+```bash
+aws --version
+az version
+gcloud --version
+```
+
+---
+
+## 14. 폰트
+
+개발용 고정폭 폰트와 한글 폰트입니다. (Nerd Font는 아이콘 글리프 포함)
+
+```bash
+brew install --cask \
+  font-jetbrains-mono-nerd-font \
+  font-d2coding-nerd-font \
+  font-maple-mono-nf \
+  font-cascadia-code \
+  font-pretendard \
+  font-noto-sans-kr
+```
+
+> 설치된 폰트는 `Font Book` 앱 또는 `시스템 설정 → 글꼴`에서 확인할 수 있습니다.
+
+---
+
+## 15. 최종 검증
 
 모든 설치가 완료되었는지 확인하는 종합 검증 스크립트입니다.
 
@@ -534,7 +800,17 @@ check tmux
 echo ""
 echo "[ Shell ]"
 check zsh
+check starship
 echo "  SHELL: $SHELL"
+
+echo ""
+echo "[ 모던 CLI ]"
+check bat
+check eza
+check btop
+check fzf
+check mise
+check mas
 
 echo ""
 echo "[ Node.js ]"
@@ -550,6 +826,7 @@ echo "[ Python ]"
 check python
 check pip
 check pyenv
+check uv
 check ipython
 check black
 check ruff
@@ -566,6 +843,14 @@ check code
 echo ""
 echo "[ GitHub CLI ]"
 check gh
+
+echo ""
+echo "[ 클라우드 / 런타임 ]"
+check aws
+check az
+check gcloud
+check go
+check rustc
 
 echo ""
 echo "=========================================="
@@ -593,6 +878,12 @@ pip install --upgrade $(pip list --outdated | awk 'NR>2{print $1}')
 
 # fnm 최신 LTS 확인
 fnm ls-remote --lts
+
+# Mac App Store 앱 업데이트
+mas upgrade
+
+# mise 관리 도구 업데이트
+mise upgrade
 ```
 
 ### 백업 및 복원
@@ -607,6 +898,6 @@ brew bundle install --file=~/.Brewfile
 
 ---
 
-> **문서 버전**: 1.0.0
-> **마지막 업데이트**: 2026-05-06
-> **대상 환경**: macOS 13+ (Apple Silicon / Intel)
+> **문서 버전**: 1.2.0
+> **마지막 업데이트**: 2026-05-30
+> **대상 환경**: macOS 13+ (Apple Silicon / Intel) — macOS 26.5에서 검증
