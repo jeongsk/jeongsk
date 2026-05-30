@@ -1,0 +1,7 @@
+{
+  "permissions": {
+  "allow": ["Bash(uv run *)", "Bash(npm run *)", "Bash(pnpm run *)", "Bash(git add *)", "Bash(rm -f /tmp/*.*)"],
+  "deny":  ["Read(.env)", "Read(.env*)", "Read(secrets/**)", "Read(**/*.pem)", "Read(**/id_rsa*)", "Read(**/credentials*)", "Bash(rm -rf /)", "Bash(git push --force*)", "Bash(git push -f*)", "WebSearch"],
+  "ask":   ["Bash(rm -rf *)"],
+  "defaultMode": "default"
+}
