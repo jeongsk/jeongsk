@@ -43,6 +43,7 @@
 - 🧠 **[agenthub](https://github.com/jeongsk/agenthub)** — AI 에이전트 허브
 - 📚 **[ragdesk](https://github.com/jeongsk/ragdesk)** — RAG Anything
 - 🔄 **[obsidian-github-inbox-sync](https://github.com/jeongsk/obsidian-github-inbox-sync)** — 옵시디언 Github 동기화 플러그인
+- 🖼️ **[Loopaper](https://github.com/jeongsk/Loopaper)** — macOS 라이브 월페이퍼 앱
 
 ## GitHub Activity
 
