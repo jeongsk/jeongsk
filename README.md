@@ -16,7 +16,6 @@
 - **[claude-skills](https://github.com/jeongsk/claude-skills)** — Claude Code 플러그인 및 스킬 모음
 - **[glm-coding-plan-statusline](https://github.com/jeongsk/glm-coding-plan-statusline)** — Claude Code에서 GLM Coding Plan 사용량을 실시간으로 보여주는 상태줄 플러그인
 - **[fusion-fugu-coding](https://github.com/jeongsk/fusion-fugu-coding)** — 멀티 리뷰어 코드 리뷰 위원회와 plan→fix→verify 루프
-- **[korean-job-hunter](https://github.com/jeongsk/korean-job-hunter)** — 원티드·잡코리아·LinkedIn 공고 수집, 이력서 매칭, 지원 현황 추적 자동화
 
 **Obsidian 플러그인**
 
