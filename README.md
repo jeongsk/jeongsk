@@ -23,12 +23,13 @@
 - **[obsidian-github-inbox-sync](https://github.com/jeongsk/obsidian-github-inbox-sync)** — GitHub 저장소의 inbox 폴더 노트를 vault로 자동 동기화
 - **[obsidian-quartz-publish](https://github.com/jeongsk/obsidian-quartz-publish)** — Obsidian 노트를 Quartz 블로그에 바로 발행
 
-**웹 · macOS**
+**웹 · macOS · iOS**
 
 - **[agenthub](https://github.com/jeongsk/agenthub)** — AI 에이전트 스킬·MCP 서버·플러그인 큐레이션 레지스트리 ([agenthub.jeongsk.work](https://agenthub.jeongsk.work))
 - **[Loopaper](https://github.com/jeongsk/Loopaper)** — 동영상을 데스크톱 배경으로 무한 재생하는 macOS 라이브 월페이퍼 앱
 - **[VNCAutoResolution](https://github.com/jeongsk/VNCAutoResolution)** — Mac 간 화면 공유(VNC) 시 해상도를 클라이언트에 자동으로 맞추고 HiDPI로 스케일업해 주며, 한/영 입력도 동기화하는 macOS 메뉴 막대 앱
 - **[local-translate](https://github.com/jeongsk/local-translate)** — 로컬 AI 모델로 동작하는 macOS 오프라인 번역 앱
+- **[rss-mobile-app](https://github.com/jeongsk/rss-mobile-app)** — 오프라인 본문·기기 내 번역·TTS를 지원하는 iPhone·iPad RSS 리더 '내 RSS'
 
 ## Tech Stack
 
